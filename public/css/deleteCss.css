@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Charmonman:wght@400;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif; 
+    text-decoration: none;
+    border: none;
+    
+}
+/* section {
+  margin-top: 50px;
+} */
+:root{
+    --container-color: #1a1e21;
+    --second-color: #800080;
+    --text-color: #000;
+    --bg-color: #fff;
+}
+#popup-message{
+    z-index: 999999;
+    position: fixed;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    transition: 0.5s ease;
+    transition-property: visibility;
+  }
+  
+  #popup-message.active{
+    visibility: visible;
+  }
+  
+  #popup-box{
+    position: relative;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    max-width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px;
+    padding: 50px 40px;
+    border-radius: 20px;
+    box-shadow: 0 5px 25px rgb(0 0 0 / 20%);
+    transform: scale(0);
+    transition: 0.5s ease;
+    transition-property: transform;
+  }
+  
+  #popup-message.active #popup-box{
+    transform: scale(1);
+  }
+  
+  #popup-box h2{
+    font-size: 2.1em;
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+  
+  #text_sup1{
+    font-size: 1em;
+    margin-bottom: 30px;
+  }
+  
+  #btn_sup{
+    color: #fff;
+    background: red;
+    font-size: 1.1em;
+    font-weight: 500;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 7px 27px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    margin: 10% 0 0 22%;
+  }
+  
+  .close-btn{
+    position: absolute;
+    font-size: 1em;
+    top: 0;
+    right: 0;
+    margin: 15px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.3s ease;
+    transition-property: opacity;
+    color: #000;
+  }
+  
+  .close-btn:hover{
+    opacity: 1;
+  }
+  
+  #title{
+    color: red;
+  }
+#text_sup{
+  margin: 1% 0;
+  font-size: 1em;
+  
+}
+ul span{
+  cursor: pointer;
+  text-decoration: underline;
+  color: #800080;
+}

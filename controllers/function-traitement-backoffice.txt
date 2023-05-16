@@ -1,0 +1,143 @@
+<?php
+include('../../models/function_bdd.php');
+//cette ligne de code me permet d'inclure ma page qui contient les fonctions (requetes ) liées à ma base de donnée sans celle-ci mes fonctions ne pourront pas être opérationnelle
+
+// -------------------------Toutes mes fonctions en rapport avec ma table "Produit(CRUD)"--------------------------------
+
+/**
+ * une fonction pour inserer un nouveau produit en bdd
+ *
+ * @param [PDO] $bdd
+ * @return void
+ */
+function ajout_newProduit($bdd)
+{
+    if (isset($_POST['btn-ajouter_newProd'])) {
+
+        $nom_produit = $_POST['nom_Newprouit'];
+        $prix_produit = $_POST['prix_Newproduit'];
+        $description_produit = $_POST['description_Newproduit'];
+        $cat_produit = $_POST['catMotif'];
+
+        $bddProd = selectProduitByName($bdd, $nom_produit);
+
+
+        if ($bddProd == null) {
+
+            if (isset($_POST['catMotif'])) {
+
+                insertProduit($bdd, $cat_produit, $nom_produit, $prix_produit, $description_produit);
+                return $message = '<p style="color:green">Produit ajouté ! </p>';
+            } else {
+                return $message = '<p style="color:red ">Produit Non ajouté !</p>';
+            }
+        } else {
+            $message = '<p style="color:red" >Le produit existe déjà</p>';
+        }
+    }
+}
+
+/**
+ * une fonction pour l'update(modiifier) d'un produit
+ *
+ * @param [PDO] $bdd
+ * @return void
+ */
+function updateNewProd($bdd)
+{
+    if (
+        isset($_GET['idProd']) && isset($_POST['nom_UpdateProd']) && isset($_POST['prix_UpdateProd'])
+        && isset($_POST['description_UpdateProd']) && isset($_POST['validation'])
+    ) {
+        $idProd = $_GET['idProd'];
+        $nom_produit = $_POST['nom_UpdateProd'];
+        $prix_produit = $_POST['prix_UpdateProd'];
+        $description_produit = $_POST['description_UpdateProd'];
+        $cat_produit = $_POST['catMotifUpdate'];
+
+        if (!empty($_POST['nom_UpdateProd'])) {
+            updateProduit($bdd, $idProd, $cat_produit, $nom_produit, $prix_produit, $description_produit);
+            return $message = '<p style="color:green">Produit bien modifié! </p>';
+        } else {
+            return $message = '<p style="color:red ">Produit Non modifié!</p>';
+        }
+    }
+}
+
+/**
+ * 
+ * une fonction pour supprimer un produit par son id
+ */
+function deleteProduitById($bdd, $idProdDelete)
+{
+    $idProdDelete = $_GET['idProdDelete'];
+    if (isset($_GET['idProdDelete'])) {
+        deleteProdById($bdd, $idProdDelete);
+    }
+}
+
+/**
+ * menu deroulant des motifs(update) pour le CRUD backend utiliser pour le update du produit
+ *
+ * @param [PDO] $bdd
+ * @return void
+ */
+function categorie_motifsUpdate($bdd)
+{
+    $show = getProduitById($bdd, $_GET['idProd']);
+    $test = getCategorieById($bdd, $show['ID_categorie']);
+
+    $bddSelectCat = getCategorie($bdd);
+    echo "<select  name='catMotifUpdate' id='selectCat'>";
+    echo '<option  value=' . $test['ID_categorie'] . '>' . $test['nom_categorie'] . '</option>';
+    foreach ($bddSelectCat as $resultatcat) {
+
+        echo '<option  value=' . $resultatcat['ID_categorie'] . '>' . $resultatcat['nom_categorie'] . '</option>';
+    }
+
+    echo '</select>';
+}
+// -----------------------------------------------------------------------------------------------------------------------
+
+// -------------------------Toutes mes fonctions en rapport avec ma table "Catégorie(CRUD)"--------------------------------
+
+/**
+ * une fonction pour l'update d'un produit
+ *
+ * @param [PDO] $bdd
+ * @return void
+ */
+function updateNewCatName($bdd)
+{
+    if (isset($_GET['idCatego']) && isset($_POST['nom_UpdateCat'])) {
+        $idCatego = $_GET['idCatego'];
+        $nom_categorie = $_POST['nom_UpdateCat'];
+
+        if (!empty($_POST['nom_UpdateCat'])) {
+            updateCategorieName($bdd, $idCatego, $nom_categorie);
+            return $message = '<p style="color:green">Produit bien modifié! </p>';
+        } else {
+            return $message = '<p style="color:red ">Produit Non modifié!</p>';
+        }
+    }
+}
+
+/**
+ * menu deroulant des motifs pour le CRUD backend (categprie)
+ *
+ * @param [PDO] $bdd
+ * @return void
+ */
+function categorie_motifs($bdd)
+{
+    $bddSelectCat = getCategorie($bdd);
+    echo "<select  name='catMotif' id='selectCat'>";
+    echo '<option value="day-select">' . "Veuillez selectionner la categorie" . '</option>';
+    foreach ($bddSelectCat as $resultatcat) {
+
+        echo '<option  value=' . $resultatcat['ID_categorie'] . '>' . $resultatcat['nom_categorie'] . '</option>';
+    }
+
+    echo '</select>';
+}
+// -----------------------------------------------------------------------------------------------------------------------
